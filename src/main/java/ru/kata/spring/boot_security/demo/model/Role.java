@@ -1,26 +1,15 @@
 package ru.kata.spring.boot_security.demo.model;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Set;
 
 @Entity
 @Table(name = "roles")
-//@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY,
-//        getterVisibility = JsonAutoDetect.Visibility.NONE,
-//        isGetterVisibility = JsonAutoDetect.Visibility.NONE,
-//        setterVisibility = JsonAutoDetect.Visibility.NONE)
-public class Role  implements GrantedAuthority, Serializable {
+public class Role implements GrantedAuthority, Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,7 +23,6 @@ public class Role  implements GrantedAuthority, Serializable {
     @ManyToMany(mappedBy = "roles")
     private Set<User> users;
 
-
     public Role() {
     }
 
@@ -46,7 +34,6 @@ public class Role  implements GrantedAuthority, Serializable {
         this.id = id;
         this.name = name;
     }
-
 
     public Long getId() {
         return id;

@@ -1,4 +1,3 @@
-// list all users
 $(document).ready(function () {
     getAuthUser();
     getAllUsers();
@@ -24,7 +23,7 @@ async function getAuthUser() {
             navEmailAdmin.innerHTML = user.email;
             navRolesAdmin.innerHTML = "with roles: " + allRoles;
 
-            if((allRoles.toString()).includes("ADMIN")) {
+            if ((allRoles.toString()).includes("ADMIN")) {
                 tempPills = '';
                 tempPills += "<li class=\"nav-item\">";
                 tempPills += "<a href=\"/admin\" class=\"nav-link active\">Admin</a>";
@@ -66,50 +65,39 @@ async function getAllUsers() {
             tempListSelect += "<select multiple size=\"3\" class=\"custom-select\" id=\"newRole\" name=\"roles\" required>"
             tempListSelect += "<option value=\"ROLE_ADMIN\">ROLE_ADMIN</option>"
             tempListSelect += "<option value=\"ROLE_USER\">ROLE_USER</option>"
-            // tempListSelect += "<option value=\"ROLE_VIP\">ROLE_VIP</option>"
             tempListSelect += "</select>"
             listSelectRoles.innerHTML = tempListSelect;
-            //navEmail.innerHTML = user.email;
         });
     $("#allUsersTable")
 }
-// list all users
 
-// edit user
 function editUser() {
     let id = document.getElementById('editID').value;
     let username = document.getElementById('editUserName').value;
-    let firstname = document.getElementById('editName').value;
-    let lastname = document.getElementById('editSurname').value;
+    let name = document.getElementById('editName').value;
+    let surname = document.getElementById('editSurname').value;
     let email = document.getElementById('editEmail').value;
     let password = document.getElementById('editPassword').value;
 
     let rolesDomElem1 = document.getElementById('editRole');
     let rol = [];
 
-    for ( let i = 0; i < rolesDomElem1.selectedOptions.length; i++) {
-        console.log( rolesDomElem1.selectedOptions[i].value);
-        if(rolesDomElem1.selectedOptions[i].value === "ROLE_ADMIN") {
+    for (let i = 0; i < rolesDomElem1.selectedOptions.length; i++) {
+        console.log(rolesDomElem1.selectedOptions[i].value);
+        if (rolesDomElem1.selectedOptions[i].value === "ROLE_ADMIN") {
             let role = {
                 'id': 1,
                 'role': 'ROLE_ADMIN'
             }
             rol.push(role)
         }
-        if(rolesDomElem1.selectedOptions[i].value === "ROLE_USER") {
+        if (rolesDomElem1.selectedOptions[i].value === "ROLE_USER") {
             let role = {
                 'id': 2,
                 'role': 'ROLE_USER'
             }
             rol.push(role)
         }
-        // if(rolesDomElem1.selectedOptions[i].value === "ROLE_VIP") {
-        //     let role = {
-        //         'id': 3,
-        //         'role': 'ROLE_VIP'
-        //     }
-        //     rol.push(role)
-        // }
     }
 
     fetch('/api/admin/update', {
@@ -134,8 +122,7 @@ function editUser() {
             location.assign('/admin')
         })
 }
-// edit user
-// modal for edit user
+
 function getModalEdit(id) {
     fetch('/api/admin/' + id)
         .then(res => res.json())
@@ -163,7 +150,7 @@ function getModalEdit(id) {
                 '                                               readonly> \n' +
                 '                                        <br>\n' +
 
-                '                                        <label class="font-weight-bold">User name</label>\n' +
+                '                                        <label class="font-weight-bold">Username</label>\n' +
                 '                                        <input type="text"\n' +
                 '                                               class="form-control"\n' +
                 '                                               name="username"\n' +
@@ -208,7 +195,6 @@ function getModalEdit(id) {
                 '                                                            name="roles" required>\n' +
                 '                                                        <option value="ROLE_ADMIN">ROLE_ADMIN</option>\n' +
                 '                                                        <option value="ROLE_USER">ROLE_USER</option>\n' +
-                // '                                                        <option value="ROLE_VIP" >ROLE_VIP</option>\n' +
                 '                                                    </select>\n' +
 
                 '                                                </div>\n' +
@@ -227,9 +213,7 @@ function getModalEdit(id) {
             $("#modalEdit").modal();
         });
 }
-// modal for edit user
 
-// delete user
 function deleteUser(id) {
     fetch('/api/admin/' + id, {
         method: 'DELETE',
@@ -243,8 +227,7 @@ function deleteUser(id) {
             location.assign('/admin')
         });
 }
-// delete user
-// modal for delete user
+
 function getModalDelete(id) {
     fetch('/api/admin/' + id)
         .then(res => res.json())
@@ -282,19 +265,19 @@ function getModalDelete(id) {
                 '                                               readonly>\n' +
                 '                                        <br>\n' +
 
-                '                                        <label class="font-weight-bold">Name</label>\n' +
+                '                                        <label class="font-weight-bold">First name</label>\n' +
                 '                                        <input type="text"\n' +
                 '                                               class="form-control"\n' +
-                '                                               name="name"\n' +
-                '                                               value="' + user.name + '"\n' +
+                '                                               name="firstname"\n' +
+                '                                               value="' + user.firstname + '"\n' +
                 '                                               readonly>\n' +
                 '                                        <br>\n' +
 
-                '                                        <label class="font-weight-bold">Surname</label>\n' +
+                '                                        <label class="font-weight-bold">Last name</label>\n' +
                 '                                        <input type="text"\n' +
                 '                                               class="form-control"\n' +
-                '                                               name="surname"\n' +
-                '                                               value="' + user.surname + '"\n' +
+                '                                               name="lastname"\n' +
+                '                                               value="' + user.lastname + '"\n' +
                 '                                               readonly>\n' +
                 '                                        <br>\n' +
 
@@ -336,13 +319,10 @@ function getModalDelete(id) {
             $("#delete").modal();
         });
 }
-// modal for delete user
-// add new user
+
 async function addNewUser() {
     await document.getElementById('new').addEventListener('submit', e => {
         e.preventDefault()
-
-
 
 
         let username = document.getElementById('newUserName').value;
@@ -353,29 +333,23 @@ async function addNewUser() {
 
         let rolesDomElem = document.getElementById('newRole');
         let rol = [];
-        for ( let i = 0; i < rolesDomElem.selectedOptions.length; i++) {
-            console.log( rolesDomElem.selectedOptions[i].value);
-            if(rolesDomElem.selectedOptions[i].value === "ROLE_ADMIN") {
+        for (let i = 0; i < rolesDomElem.selectedOptions.length; i++) {
+            console.log(rolesDomElem.selectedOptions[i].value);
+            if (rolesDomElem.selectedOptions[i].value === "ROLE_ADMIN") {
                 let role = {
                     'id': 1,
                     'role': 'ROLE_ADMIN'
                 }
                 rol.push(role)
             }
-            if(rolesDomElem.selectedOptions[i].value === "ROLE_USER") {
+            if (rolesDomElem.selectedOptions[i].value === "ROLE_USER") {
                 let role = {
                     'id': 2,
                     'role': 'ROLE_USER'
                 }
                 rol.push(role)
             }
-            // // if(rolesDomElem.selectedOptions[i].value === "ROLE_VIP") {
-            // //     let role = {
-            // //         'id': 3,
-            // //         'role': 'ROLE_VIP'
-            // //     }
-            // //     rol.push(role)
-             }
+        }
 
         console.log(rol);
 
@@ -397,7 +371,5 @@ async function addNewUser() {
             .then(res =>
                 console.log(res.json()))
             .then(data => location.assign('/admin'))
-        //return false;
     })
 }
-// add new user

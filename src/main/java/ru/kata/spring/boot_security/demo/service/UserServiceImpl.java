@@ -1,19 +1,18 @@
 package ru.kata.spring.boot_security.demo.service;
 
-import ru.kata.spring.boot_security.demo.model.User;
-import ru.kata.spring.boot_security.demo.repository.UserRepository;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import ru.kata.spring.boot_security.demo.model.User;
+import ru.kata.spring.boot_security.demo.repository.UserRepository;
 
 import java.util.List;
 
 @Service
-public class UserServiceImpl implements UserService{
-
+public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+
     private final PasswordEncoder passwordEncoder;
 
     @Autowired
@@ -28,14 +27,13 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public User getUserByUsername(String username)  {
-
+    public User getUserByUsername(String email) {
         User user = null;
         try {
-            user = userRepository.findByUsername(username);
+            user = userRepository.findByUsername(email);
         } catch (Exception e) {
             System.err.println("Error search user in database .....");
-            System.err.println("User with name -> " + username + "not found in database");
+            System.err.println("User with name -> " + email + "not found in database");
             System.err.println(e.getMessage());
             e.printStackTrace();
         }
@@ -88,7 +86,7 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public void saveTestUser(User user) {
+    public void createUser(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
     }

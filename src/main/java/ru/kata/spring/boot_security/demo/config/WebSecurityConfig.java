@@ -1,5 +1,5 @@
 package ru.kata.spring.boot_security.demo.config;
-import ru.kata.spring.boot_security.demo.service.UserDetailsServiceImpl;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import ru.kata.spring.boot_security.demo.service.UserDetailsServiceImpl;
 
 @Configuration
 @EnableWebSecurity
@@ -22,7 +23,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     SuccessHandler successHandler;
 
     @Autowired
-    protected void configureGlobal(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception{
+    protected void configureGlobal(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
         authenticationManagerBuilder.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
     }
 
@@ -38,9 +39,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and().formLogin().loginPage("/login")
                 .successHandler(successHandler)
                 .loginProcessingUrl("/login")
-                .usernameParameter("j_username")
+                .usernameParameter("email")
                 .passwordParameter("j_password");
-
         http.logout()
                 .permitAll()
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))

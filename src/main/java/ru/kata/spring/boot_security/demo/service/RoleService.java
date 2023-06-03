@@ -8,14 +8,9 @@ import java.util.Set;
 public interface RoleService {
 
     Role getRoleByName(String name);
-
     Role getRoleById(Long id);
-
     List<Role> allRoles();
-
     Role getDefaultRole();
-
     void save(Role role);
-
     Set<Role> getRoleSet(String[] role);
 }
